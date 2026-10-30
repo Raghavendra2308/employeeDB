@@ -114,3 +114,22 @@ if (!email.includes("@")) {
 
   }
 };
+
+
+
+
+
+exports.getProfile = async (req, res) => {
+  try {
+    const result = await db.query(
+      "SELECT id, name, email FROM users WHERE id = $1",
+      [req.user.id]
+    );
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
